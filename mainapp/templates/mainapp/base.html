@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+        {% block title %}
+            {{ title | title }}
+        {% endblock %}
+    </title>
+    {% block css %}
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% endblock %}
+
+    {% block js %}
+
+    {% endblock %}
+</head>
+<body>
+	<div class="container">
+        {% block header %}
+            <div class="header">
+                <a href="{% url 'main' %}"><img src="{% static 'img/logo.png' %}"></a>
+                {% block menu %}
+                {% endblock %}
+                <hr>
+            </div>
+        {% endblock %}
+
+        {% block content %}
+
+        {% endblock %}
+        {% block footer %}
+		<div class="footer">
+			&copy; Все права защищены {% now "Y" %}
+		</div>
+        {% endblock %}
+	</div>
+</body>
+</html>

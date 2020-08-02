@@ -1,0 +1,9 @@
+{% load static %}
+{% for item in catalog_list %}
+    <div class="catalog_list">
+        <a href="{% url item.href product_name=item.product_name %}">
+            <img src="{% static item.img %}" alt="{{item.product_name}}">
+            <p class="text">{{item.text}}</p>
+        </a>
+    </div>
+{% endfor %}

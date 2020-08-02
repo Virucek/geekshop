@@ -1,0 +1,19 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block menu %}
+	{% include 'mainapp/includes/inc_main_menu.html' %}
+{% endblock %}
+
+{% block content %}
+	<div class="catalog_list">
+		<h1>Каталог товаров</h1>
+		<ul class="submenu">
+			<li><a href="#">Test 1</a></li>
+			<li><a href="#">Test 2</a></li>
+			<li><a href="#">Test 3</a></li>
+		</ul>
+		{% include 'mainapp/includes/inc_catalog_list.html' %}
+	</div>
+	<hr>
+{% endblock %}
