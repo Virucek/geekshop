@@ -15,16 +15,17 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 import mainapp.views as mainapp
 from geekshop import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mainapp.main, name='main'),
-    path('catalog/', mainapp.catalog, name='catalog'),
+    #path('catalog/', mainapp.catalog, name='catalog'),
+    path('catalog/', include('mainapp.urls', namespace='catalog')),
     path('contacts/', mainapp.contacts, name='contacts'),
-    path('catalog/<product_name>/', mainapp.detail, name='detail'),
+    #path('catalog/<product_name>/', mainapp.detail, name='detail'),
 ]
 
 if settings.DEBUG:

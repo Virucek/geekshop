@@ -1,3 +1,11 @@
 <ul class="submenu">
-    <li><a href="#">Test 1</a></li>
+    {% for i in submenu_list %}
+    <li>
+        <a href="{% url 'catalog:catalog' i.pk %}"
+           {% if i.pk == pk_req %}
+                class="active"
+                {% endif %}>
+            {{ i.name }} {{test}}
+    </li>
+    {% endfor %}
 </ul>
