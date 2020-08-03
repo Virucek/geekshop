@@ -3,7 +3,7 @@ from mainapp.models import *
 from geekshop import settings
 
 # Скрипт для подготовки БД перед перезаливкой test_data.json из fixtures.
-# Когда предопределил pk в скрипте, стал неактуальным
+# Когда предопределил pk в файле test_data, данный скрипт стал неактуальным
 settings.configure()
 del_category = ProductCategory.objects.filter(name__in=['Брелок', 'Шапка'])
 del_merch_type = MerchType.objects.filter(id = 4)
