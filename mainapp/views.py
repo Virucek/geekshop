@@ -53,7 +53,7 @@ def catalog(request, pk=None):
         title = 'каталог товаров'
     else:
         catalog_list = Product.objects.filter(category=pk)
-        title = catalog_list[0].category.name
+        title = ProductCategory.objects.get(id=pk)
     submenu_list = ProductCategory.objects.all()
 
     test = request.path
