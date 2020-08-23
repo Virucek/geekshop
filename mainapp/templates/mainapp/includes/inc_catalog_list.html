@@ -1,7 +1,7 @@
 {% load static %}
 {% for item in catalog_list %}
     <div class="catalog_list">
-        <a href="#">
+        <a href="{% url 'catalog:product' item.pk %}">
             <img src="/media/{{ item.image }}" alt="{{item.name}}">
             <p class="text">{{item.name}}</p>
         </a>

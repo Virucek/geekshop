@@ -20,10 +20,13 @@ import mainapp.views as mainapp
 from geekshop import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
+    path('admin/', include('adminapp.urls', namespace='admin')),
     path('', mainapp.main, name='main'),
     #path('catalog/', mainapp.catalog, name='catalog'),
     path('catalog/', include('mainapp.urls', namespace='catalog')),
+    path('auth/', include('authapp.urls', namespace='auth')),
+    path('basket/', include('basketapp.urls', namespace='basket')),
     path('contacts/', mainapp.contacts, name='contacts'),
     #path('catalog/<product_name>/', mainapp.detail, name='detail'),
 ]
