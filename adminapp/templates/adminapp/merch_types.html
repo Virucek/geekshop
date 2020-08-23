@@ -8,7 +8,7 @@
             <button class="new_merch_type">новый тип мерча</button>
         </a>
 
-        {% for object in objects %}
+        {% for object in object_list %}
             <div class="merch_type_record {% if not object.is_active %}not_active{% endif %}">
                 <div class="merch_type_name">
                     {{ object.name|title }}

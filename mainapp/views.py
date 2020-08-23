@@ -1,6 +1,7 @@
 # -*- coding: windows-1251 -*-
 import random
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 import os
 import json
@@ -36,7 +37,9 @@ def main(request):
 
 
 def catalog(request, pk=None):
+    items_on_page = 2
     if pk == 0 or pk is None:
+        curr_category = {'pk': 0, 'name': 'Все'}
         catalog_list = Product.objects.filter(category__is_active=True, is_active=True).order_by('price')
         title = 'каталог товаров'
     else:
@@ -44,13 +47,22 @@ def catalog(request, pk=None):
         catalog_list = Product.objects.filter(category=pk, is_active=True).order_by('price')
         title = curr_category.name
     submenu_list = ProductCategory.objects.filter(is_active=True)
+    page = request.GET.get('page')
+    paginator = Paginator(catalog_list, items_on_page)
+    try:
+        products_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        products_paginator = paginator.page(1)
+    except EmptyPage:
+        products_paginator = paginator.page(paginator.num_pages)
 
     content = {
         'title': title,
-        'catalog_list': catalog_list,
+        'catalog_list': products_paginator,
         'submenu_list': submenu_list,
         'basket': get_basket(request.user),
         'hot_product': get_hot_product(),
+        'category': curr_category,
     }
     return render(request, 'mainapp/catalog.html', context=content)
 

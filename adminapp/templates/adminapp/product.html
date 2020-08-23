@@ -1,6 +1,6 @@
 {% extends 'adminapp/base.html' %}
 {% load static %}
-
+{% load media_tags %}
 
 {% block content %}
     <div class="product_read">
@@ -11,7 +11,7 @@
             {% endif %}
             <p>Имя товара: {{ object.name | title }}</p>
         </div>
-        <img src="/media/{{ object.image|default:'products_images/default.jpg' }}" alt="{{ object.name }}">
+        <img src="{{ object.image|media_folder_products }}" alt="{{ object.name }}">
         <div>
             <p>Краткое описание:</p>
             <p>{{ object.short_desc }}</p>
@@ -35,7 +35,7 @@
                         {% endif %}
                     </button>
                 </a>
-                <a href="{% url 'admin:products' category.pk %}">
+                <a href="{% url 'admin:products' object.category.pk %}">
                     <button>
                         к списку
                     </button>
