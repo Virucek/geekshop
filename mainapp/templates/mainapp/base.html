@@ -21,6 +21,20 @@
         {% block header %}
             <div class="header">
                 <a href="{% url 'main' %}"><img src="{% static 'img/logo.png' %}"></a>
+                {% block user_header %}
+                <div class="user_header">
+                    {% if user.is_authenticated %}
+                        Привет, <a href="{% url 'auth:edit' %}">{{ user.first_name }}</a>!
+                        <a href="{% url 'auth:logout' %}">
+                            Выход
+                        </a>
+                    {% else %}
+                        Привет, <a href="{% url 'auth:login' %}">Пользователь</a>!
+                        <a href="{% url 'auth:login' %}">
+                            Вход</a>
+                    {% endif %}
+                </div>
+                {% endblock %}
                 {% block menu %}
                 {% endblock %}
                 <hr>

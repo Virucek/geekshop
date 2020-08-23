@@ -1,84 +1,81 @@
-from django.shortcuts import render
+# -*- coding: windows-1251 -*-
+import random
+
+from django.shortcuts import render, get_object_or_404
 import os
 import json
 
+from basketapp.models import Basket
 from geekshop import settings
 from mainapp.models import ProductCategory, Product
 
 
+def get_basket(user):
+    if user.is_authenticated:
+        return Basket.objects.filter(user=user)
+    else:
+        return []
+
+
+def get_same_products(product):
+    same_products = Product.objects.filter(category=product.category, is_active=True).exclude(pk=product.pk)[:4]
+    return same_products
+
+
+def get_hot_product():
+    products = Product.objects.filter(category__is_active=True, is_active=True)
+    return random.sample(list(products), 1)[0]
+
+
 def main(request):
     content = {
-        'title': 'магазин мерча',
+        'title': '������� �����',
+        'basket': get_basket(request.user),
     }
     return render(request, 'mainapp/index.html', context=content)
 
+
 def catalog(request, pk=None):
-    """
-    catalog_list = [
-        {
-            'href': 'detail',
-            'product_name': 'overwatch',
-            'img': 'img/poster_overwatch.jpg',
-            'text': 'Постер по видеоигре Overwatch',
-        },
-        {
-            'href': 'detail',
-            'product_name': 'shawshank',
-            'img': 'img/poster_shawshank.jpg',
-            'text': 'Постер по кинофильму The Shawshank redemption'
-        },
-        {
-            'href': 'detail',
-            'product_name': 'nirvana',
-            'img': 'img/poster_nirvana.jpg',
-            'text': 'Постер рок-группы Nirvana'
-        },
-
-    ]
-    """
-#    with open(os.path.join(settings.BASE_DIR, "catalog_list.json"), "r", encoding="utf8") as file:
-#        json_data = json.load(file)
-
-#    catalog_list = json_data
-#    for i in catalog_list:
-#        i.update({"href": "detail"})
-
-    # Для присваивания определенному подменю класса "active"
-    pk_req = None
-    if pk:
-        pk_req = int([i for i in str(request.path).split('/')][-1])
-
-    if pk == 1 or pk == None:
-        catalog_list = Product.objects.all()
-        title = 'каталог товаров'
+    if pk == 0 or pk is None:
+        catalog_list = Product.objects.filter(category__is_active=True, is_active=True).order_by('price')
+        title = '������� �������'
     else:
-        catalog_list = Product.objects.filter(category=pk)
-        title = catalog_list[0].category.name
-    submenu_list = ProductCategory.objects.all()
-
-    test = request.path
+        curr_category = get_object_or_404(ProductCategory, pk=pk, is_active=True)
+        catalog_list = Product.objects.filter(category=pk, is_active=True).order_by('price')
+        title = curr_category.name
+    submenu_list = ProductCategory.objects.filter(is_active=True)
 
     content = {
         'title': title,
         'catalog_list': catalog_list,
         'submenu_list': submenu_list,
-        'pk_req': pk_req,
+        'basket': get_basket(request.user),
+        'hot_product': get_hot_product(),
     }
     return render(request, 'mainapp/catalog.html', context=content)
+
 
 def contacts(request):
     with open(os.path.join(settings.BASE_DIR, "address.json"), "r", encoding="utf8") as file:
         json_data = json.load(file)
 
     content = {
-        'title': 'контакты',
-        'address_data': json_data
+        'title': '��������',
+        'address_data': json_data,
+        'basket': get_basket(request.user),
     }
     return render(request, 'mainapp/contacts.html', context=content)
 
-def detail(request, product_name):
+
+def detail(request, pk):
+    product = get_object_or_404(Product, pk=pk, is_active=True, category__is_active=True)
+    title = f'�������: {product.name}'
+    submenu_list = ProductCategory.objects.filter(is_active=True)
     content = {
-        'title': 'продукт',
-        'product_img': f'img/poster_{product_name}.jpg',
+        'title': title,
+        'product': product,
+        'submenu_list': submenu_list,
+        'basket': get_basket(request.user),
+        'same_products': get_same_products(product),
     }
-    return render(request, f'mainapp/catalog/{product_name}.html', context=content)
+    return render(request, f'mainapp/product_detail.html', context=content)

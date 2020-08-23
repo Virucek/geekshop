@@ -1,4 +1,5 @@
 body {
+    font-family: 'Roboto Condensed', sans-serif;
 	background-color: #f8f8f8;
 	overflow-y: scroll;
 }
@@ -26,10 +27,18 @@ body {
 	vertical-align: middle;
 }
 
+.user_header {
+    margin: 35px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+
+}
+
 .menu {
 	margin: 35px;
 	float: right;
-	display: inline-block;
+	display: flex;
 	vertical-align: middle;
 }
 
@@ -38,7 +47,7 @@ body {
 	display: inline-block;
 	list-style-type: none;
 	height: 30px;
-	font-size: 20px;
+	font-size: 18px;
 	padding-left: 40px;
 }
 
@@ -48,6 +57,7 @@ body {
 	color: black;
 }
 
+.user_header a:hover,
 .submenu a:hover,
 .menu a:hover {
 	color: green;
@@ -57,6 +67,15 @@ body {
 .menu .active {
     color: green;
     text-decoration: underline;
+}
+
+.basket {
+	display: inline-block;
+}
+
+.basket img {
+    width: 23px;
+	height: 23px;
 }
 
 h3 {
@@ -84,6 +103,22 @@ h3 {
 
 .content p{
 	font-size: 18px;
+}
+
+.hot_product {
+	display: flex;
+	padding: 0 20%;
+}
+
+.hot_product img {
+	display: inline-block;
+	height: 400px;
+}
+
+.hot_desc {
+	display:inline-block;
+	text-align: center;
+	padding: 15%;
 }
 
 .brief {
@@ -120,6 +155,17 @@ h3 {
 	font-size: 28px;
 }
 
+.buy_button {
+	bottom: 0;
+	left: calc(50% + 50px);
+	height: 70px;
+	width: 150px;
+	font-size: 18px;
+	text-align: center;
+	border-radius: 25px;
+	border: 3px solid green;
+}
+
 .brief input[type="button"]{
 	position: absolute;
 	bottom: 0;
@@ -132,10 +178,12 @@ h3 {
 	border: 3px solid green;
 }
 
+.buy_button:hover,
 .brief input[type="button"]:hover {
 	border: 3px solid grey;
 }
 
+.buy_button:active,
 .brief input[type="button"]:active {
 	background-color: #00b300;
 	opacity: 0.7;
